@@ -581,18 +581,18 @@ BinarySearchTree<Key, Value>::predecessor(Node<Key, Value>* current)
         return nullptr;
     }
 
-    Node<Key, Value >* temp = current;
-    if(temp->getLeft() != NULL) {
-        temp = temp->getLeft();
-        while(temp->getRight() != NULL) {
-            temp = temp->getRight();
+    Node<Key, Value >* tempNode = current;
+    if(tempNode->getLeft() != NULL) {
+        tempNode = tempNode->getLeft();
+        while(tempNode->getRight() != NULL) {
+            tempNode = tempNode->getRight();
         }
-        return temp;
+        return tempNode;
     } else {
-        while((temp->getParent()) != NULL && temp == (temp->getParent())->getLeft()) {
-            temp = temp->getParent();
+        while((tempNode->getParent()) != NULL && tempNode == (tempNode->getParent())->getLeft()) {
+            tempNode = tempNode->getParent();
         }
-        return temp->getParent();
+        return tempNode->getParent();
     }
 }
 
@@ -610,14 +610,14 @@ void BinarySearchTree<Key, Value>::clear()
 }
 
 template<typename Key, typename Value>
-void BinarySearchTree<Key, Value>::clearHelper(Node<Key, Value>* n)
+void BinarySearchTree<Key, Value>::clearHelper(Node<Key, Value>* node)
 {
-    if(n == NULL) {
+    if(node == NULL) {
         return;
     }
-    clearHelper(n->getLeft());
-    clearHelper(n->getRight());
-    delete n;
+    clearHelper(node->getLeft());
+    clearHelper(node->getRight());
+    delete node;
 }
 
 
@@ -629,14 +629,14 @@ Node<Key, Value>*
 BinarySearchTree<Key, Value>::getSmallestNode() const
 {
     // TODO
-    Node<Key, Value>* temp = root_;
-    if(temp == NULL) {
+    Node<Key, Value>* tempNode = root_;
+    if(tempNode == NULL) {
         return NULL;
     }
-    while(temp->getLeft() != NULL) {
-        temp = temp->getLeft();
+    while(tempNode->getLeft() != NULL) {
+        tempNode = tempNode->getLeft();
     }
-    return temp;
+    return tempNode;
 }
 
 /**
@@ -648,14 +648,14 @@ template<typename Key, typename Value>
 Node<Key, Value>* BinarySearchTree<Key, Value>::internalFind(const Key& key) const
 {
     // TODO
-    Node<Key, Value >* temp = root_;
-    while(temp != NULL) {
-        if(key > temp->getKey()) {
-            temp = temp->getRight();
-        } else if(key < temp->getKey()) {
-            temp = temp->getLeft();
-        } else if(key == temp->getKey()) {
-            return temp;
+    Node<Key, Value >* tempNode = root_;
+    while(tempNode != NULL) {
+        if(key > tempNode->getKey()) {
+            tempNode = tempNode ->getRight();
+        } else if(key < tempNode ->getKey()) {
+            tempNode = tempNode ->getLeft();
+        } else if(key == tempNode ->getKey()) {
+            return tempNode;
         }
     }
     return nullptr;
@@ -671,27 +671,27 @@ bool BinarySearchTree<Key, Value>::isBalanced() const
     return isBalancedHelper(root_);
 }
 template<typename Key, typename Value>
-bool BinarySearchTree<Key, Value>::isBalancedHelper(Node<Key, Value >* root) const
+bool BinarySearchTree<Key, Value>::isBalancedHelper(Node<Key, Value >* rootNode) const
 {
-    if(root == NULL) {
+    if(rootNode == NULL) {
         return true;
     }
 
-    int left = height(root->getLeft());
-    int right = height(root->getRight());
+    int lfNode = height(rootNode->getLeft());
+    int rNode = height(rootNode->getRight());
 
-    if(std::abs(left-right) <= 1 && isBalancedHelper(root->getLeft()) && isBalancedHelper(root->getRight())) {
+    if(std::abs(lfNode-rNode) <= 1 && isBalancedHelper(rootNode->getLeft()) && isBalancedHelper(rootNode->getRight())) {
         return true;
     }
     return false;
 }
 template<typename Key, typename Value>
-int BinarySearchTree<Key, Value>::height(Node<Key, Value >* n) const {
-    if(n == NULL) {
+int BinarySearchTree<Key, Value>::height(Node<Key, Value >* node) const {
+    if(node == NULL) {
         return -1; 
     }
-    int lhs = height(n->getLeft());
-    int rhs = height(n->getRight());
+    int lhs = height(node->getLeft());
+    int rhs = height(node->getRight());
     return std::max(lhs, rhs) + 1;
 }
 
